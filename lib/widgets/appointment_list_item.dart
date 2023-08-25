@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:master_clinic_flutter_app/utils/datetime_helper.dart';
 
 import '../models/appointment.dart';
 
@@ -35,7 +36,7 @@ class AppointmentListItem extends StatelessWidget {
                   ),
             ),
             Text(
-              appointment.formattedDateTime(appointment.dateTime),
+              DatetimeHelper.formatDatetime(appointment.dateTime),
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),
