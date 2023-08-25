@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/shared/screen_title.dart';
 import '../../widgets/appointment_list_item.dart';
 import '../../models/appointment.dart';
 
@@ -14,7 +15,9 @@ class DoctorAppointmentsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Appointments'),
+        title: ScreenTitle(
+          title: 'My Appointments',
+        ),
       ),
       body: ListView.builder(
         itemCount: appointments.length,
