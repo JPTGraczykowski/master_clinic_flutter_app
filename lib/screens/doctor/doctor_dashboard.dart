@@ -8,7 +8,7 @@ class DoctorDashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Doctor Dashboard'),
+          title: Text('Dashboard'),
         ),
         body: ListView(
           padding: const EdgeInsets.all(16),
