@@ -29,7 +29,13 @@ class AppointmentListItem extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              appointment.dateTime,
+              'ID: #${appointment.id}',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+            ),
+            Text(
+              appointment.formattedDateTime(appointment.dateTime),
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),
