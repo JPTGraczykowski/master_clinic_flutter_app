@@ -3,6 +3,7 @@ class User {
   final String email;
   final String firstName;
   final String lastName;
+  final String fullName;
   final String telephone;
   final bool active;
 
@@ -11,6 +12,7 @@ class User {
     required this.email,
     required this.firstName,
     required this.lastName,
+    required this.fullName,
     required this.telephone,
     required this.active,
   });

@@ -12,6 +12,7 @@ class Doctor extends User {
     required super.email,
     required super.firstName,
     required super.lastName,
+    required super.fullName,
     required super.telephone,
     required super.active,
     required this.specialty,
