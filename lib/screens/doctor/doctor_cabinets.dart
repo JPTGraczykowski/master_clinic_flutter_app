@@ -7,7 +7,7 @@ class DoctorCabinetsScreen extends StatelessWidget {
   const DoctorCabinetsScreen({
     super.key,
     required this.cabinets,
-  })
+  });
 
   final List<Cabinet> cabinets;
 

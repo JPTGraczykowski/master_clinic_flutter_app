@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:master_clinic_flutter_app/screens/doctor/doctor_cabinets.dart';
 import '../../data/mock_data.dart';
 import '../../screens/doctor/doctor_appointments.dart';
 import '../../screens/doctor/doctor_datetime_slots.dart';
@@ -30,6 +31,16 @@ class DoctorDashboardScreen extends StatelessWidget {
           ),
         );
         break;
+      case 'cabinets':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (ctx) => DoctorCabinetsScreen(
+              cabinets: mockCabinets,
+            ),
+          ),
+        );
+        break;
     }
   }
 
@@ -56,7 +67,12 @@ class DoctorDashboardScreen extends StatelessWidget {
                 onSelectItem(context, 'datetimeSlots');
               },
             ),
-            DashboardListItem(title: 'My Cabinets', onSelectItem: () {}),
+            DashboardListItem(
+              title: 'My Cabinets',
+              onSelectItem: () {
+                onSelectItem(context, 'cabinets');
+              },
+            ),
           ],
         ));
   }
