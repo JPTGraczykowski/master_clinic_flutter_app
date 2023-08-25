@@ -21,20 +21,37 @@ class DatetimeSlotListItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 15,
-          horizontal: 0,
+          horizontal: 30,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Slot',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Slot #${datetimeSlot.id}',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                ),
+                Text(
+                  DatetimeHelper.formatDatetime(datetimeSlot.slotDatetime),
+                )
+              ],
             ),
-            Text(
-              DatetimeHelper.formatDatetime(datetimeSlot.slotDatetime),
-            )
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: datetimeSlot.isFree
+                  ? [
+                      Icon(Icons.check),
+                      Text('Free'),
+                    ]
+                  : [
+                      Icon(Icons.close),
+                      Text('Booked'),
+                    ],
+            ),
           ],
         ),
       ),
