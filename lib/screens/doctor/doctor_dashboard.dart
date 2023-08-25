@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:master_clinic_flutter_app/widgets/dashboard_list_item.dart';
+import '../../widgets/dashboard_list_item.dart';
+import '../../widgets/shared/screen_title.dart';
 
 class DoctorDashboardScreen extends StatelessWidget {
   const DoctorDashboardScreen({super.key});
@@ -8,7 +9,9 @@ class DoctorDashboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Dashboard'),
+          title: ScreenTitle(
+            title: 'Dashboard',
+          ),
         ),
         body: ListView(
           padding: const EdgeInsets.all(16),
