@@ -121,7 +121,7 @@ final mockDatetimeSlots = [
     id: '1',
     doctor: mockDoctors[0],
     slotDatetime: '2023-05-25 10:00:00.000000',
-    isFree: true,
+    isFree: false,
   ),
   DatetimeSlot(
     id: '2',
@@ -131,7 +131,7 @@ final mockDatetimeSlots = [
   ),
   DatetimeSlot(
     id: '3',
-    doctor: mockDoctors[3],
+    doctor: mockDoctors[2],
     slotDatetime: '2023-05-27 10:00:00.000000',
     isFree: true,
   ),

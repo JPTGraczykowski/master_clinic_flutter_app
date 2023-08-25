@@ -25,10 +25,4 @@ class Appointment {
     required this.doctor,
     required this.cabinet,
   });
-
-  String formattedDateTime(String stringDateTime) {
-    DateTime dateTime = DateTime.parse(stringDateTime);
-
-    return DateFormat('MMMM dd HH:mm').format(dateTime);
-  }
 }
