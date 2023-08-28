@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:master_clinic_flutter_app/screens/doctor/doctor_cabinets.dart';
+import '../../screens/doctor/doctor_cabinets.dart';
 import '../../data/mock_data.dart';
 import '../../screens/doctor/doctor_appointments.dart';
 import '../../screens/doctor/doctor_datetime_slots.dart';
