@@ -1,3 +1,8 @@
+enum UserRole {
+  doctor,
+  patient,
+}
+
 class User {
   final String id;
   final String email;

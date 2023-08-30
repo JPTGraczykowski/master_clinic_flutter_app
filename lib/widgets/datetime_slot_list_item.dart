@@ -36,7 +36,7 @@ class DatetimeSlotListItem extends StatelessWidget {
                       ),
                 ),
                 Text(
-                  DatetimeHelper.formatDatetime(datetimeSlot.slotDatetime),
+                  DatetimeHelper.formatDatetimeString(datetimeSlot.slotDatetime),
                 )
               ],
             ),

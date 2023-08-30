@@ -3,7 +3,7 @@ import './specialty.dart';
 import './cabinet.dart';
 
 class Doctor extends User {
-  static const role = 'doctor';
+  static const role = UserRole.doctor;
   final Specialty specialty;
   final Cabinet cabinet;
 
