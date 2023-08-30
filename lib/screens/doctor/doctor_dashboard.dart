@@ -4,7 +4,7 @@ import '../../data/mock_data.dart';
 import '../../screens/doctor/doctor_appointments.dart';
 import '../../screens/doctor/doctor_datetime_slots.dart';
 import '../../widgets/dashboard_list_item.dart';
-import '../../widgets/shared/screen_title.dart';
+import '../../widgets/screen_title.dart';
 
 class DoctorDashboardScreen extends StatelessWidget {
   const DoctorDashboardScreen({super.key});

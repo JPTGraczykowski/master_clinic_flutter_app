@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/mock_data.dart';
 import '../../screens/patient/patient_appointments.dart';
 import '../../widgets/dashboard_list_item.dart';
-import '../../widgets/shared/screen_title.dart';
+import '../../widgets/screen_title.dart';
 
 class PatientDashboardScreen extends StatelessWidget {
   const PatientDashboardScreen({super.key});

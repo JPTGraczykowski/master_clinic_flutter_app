@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/shared/screen_title.dart';
+import '../../widgets/screen_title.dart';
 import '../../widgets/appointment_list_item.dart';
 import '../../models/appointment.dart';
 

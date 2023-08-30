@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../widgets/shared/screen_title.dart';
+import '../../widgets/screen_title.dart';
 import '../../models/cabinet.dart';
 import '../../widgets/cabinet_list_item.dart';
 

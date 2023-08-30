@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/datetime_slot_list_item.dart';
-import '../../widgets/shared/screen_title.dart';
+import '../../widgets/screen_title.dart';
 import '../../models/datetime_slot.dart';
 
 class DoctorDatetimeSlotsScreen extends StatelessWidget {

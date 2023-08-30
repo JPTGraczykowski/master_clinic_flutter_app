@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:master_clinic_flutter_app/widgets/shared/screen_title.dart';
+import 'package:master_clinic_flutter_app/widgets/screen_title.dart';
 import '../../models/appointment.dart';
 import '../../widgets/appointment_list_item.dart';
 
