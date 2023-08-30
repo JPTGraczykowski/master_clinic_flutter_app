@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:intl/intl.dart';
+import 'package:master_clinic_flutter_app/models/user.dart';
 import '../../utils/input_decoration.dart';
 import '../../widgets/primary_button.dart';
 import '../../data/mock_data.dart';
 
 class AppointmentForm extends StatefulWidget {
-  const AppointmentForm({super.key});
+  const AppointmentForm({
+    super.key,
+    required this.userRole,
+  });
+
+  final UserRole userRole;
 
   @override
   State<AppointmentForm> createState() => _AppointmentFormState();
@@ -40,6 +46,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                 decoration: FormHelper.inputDecoration(
                   context: context,
                   labelText: 'Specialty',
+                  fillColor: widget.userRole == UserRole.patient ? null : Colors.black12,
                 ),
                 items: [
                   for (final specialty in mockSpecialties)
@@ -48,25 +55,13 @@ class _AppointmentFormState extends State<AppointmentForm> {
                       child: Text(specialty.name),
                     )
                 ],
-                onChanged: (value) {
-                  setState(() {
-                    _specialtyId = value!;
-                  });
-                },
-              ),
-              SizedBox(height: 16),
-              DateTimeField(
-                decoration: FormHelper.inputDecoration(
-                  context: context,
-                  labelText: 'Date and Time',
-                ),
-                selectedDate: _dateTime,
-                dateFormat: DateFormat('MMMM dd HH:mm'),
-                onDateSelected: (DateTime value) {
-                  setState(() {
-                    _dateTime = value;
-                  });
-                },
+                onChanged: widget.userRole == UserRole.patient
+                    ? (value) {
+                        setState(() {
+                          _specialtyId = (value!).toString();
+                        });
+                      }
+                    : null,
               ),
               SizedBox(height: 16),
               DropdownButtonFormField(
@@ -88,61 +83,81 @@ class _AppointmentFormState extends State<AppointmentForm> {
                 },
               ),
               SizedBox(height: 16),
-              DropdownButtonFormField(
+              DateTimeField(
                 decoration: FormHelper.inputDecoration(
                   context: context,
-                  labelText: 'Patient',
+                  labelText: 'Date and Time',
                 ),
-                items: [
-                  for (final patient in mockPatients)
-                    DropdownMenuItem(
-                      value: patient.id,
-                      child: Text(patient.fullName),
-                    )
-                ],
-                onChanged: (value) {
+                selectedDate: _dateTime,
+                dateFormat: DateFormat('MMMM dd HH:mm'),
+                onDateSelected: (DateTime value) {
                   setState(() {
-                    _patientId = value!;
+                    _dateTime = value;
                   });
                 },
               ),
               SizedBox(height: 16),
+              if (widget.userRole == UserRole.doctor) ...[
+                DropdownButtonFormField(
+                  decoration: FormHelper.inputDecoration(
+                    context: context,
+                    labelText: 'Patient',
+                  ),
+                  items: [
+                    for (final patient in mockPatients)
+                      DropdownMenuItem(
+                        value: patient.id,
+                        child: Text(patient.fullName),
+                      )
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _patientId = value!;
+                    });
+                  },
+                ),
+                SizedBox(height: 16),
+              ],
               TextFormField(
                 decoration: FormHelper.inputDecoration(
                   context: context,
                   labelText: 'Description',
+                  fillColor: widget.userRole == UserRole.patient ? null : Colors.black12,
                 ),
                 controller: _descriptionController,
                 maxLines: 5,
+                readOnly: widget.userRole == UserRole.doctor,
               ),
               SizedBox(height: 16),
-              DropdownButtonFormField(
-                decoration: FormHelper.inputDecoration(
-                  context: context,
-                  labelText: 'Cabinet',
+              if (widget.userRole == UserRole.doctor) ...[
+                DropdownButtonFormField(
+                  decoration: FormHelper.inputDecoration(
+                    context: context,
+                    labelText: 'Cabinet',
+                  ),
+                  items: [
+                    for (final cabinet in mockCabinets)
+                      DropdownMenuItem(
+                        value: cabinet.id,
+                        child: Text(cabinet.name),
+                      ),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _cabinetId = value!;
+                    });
+                  },
                 ),
-                items: [
-                  for (final cabinet in mockCabinets)
-                    DropdownMenuItem(
-                      value: cabinet.id,
-                      child: Text(cabinet.name),
-                    ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _cabinetId = value!;
-                  });
-                },
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                decoration: FormHelper.inputDecoration(
-                  context: context,
-                  labelText: 'Before Visit',
+                SizedBox(height: 16),
+                TextFormField(
+                  decoration: FormHelper.inputDecoration(
+                    context: context,
+                    labelText: 'Before Visit',
+                  ),
+                  controller: _beforeVisitController,
+                  maxLines: 5,
                 ),
-                controller: _beforeVisitController,
-                maxLines: 5,
-              ),
+              ],
               SizedBox(height: 32),
               PrimaryButton(
                 onPressed: _isSending ? null : _saveAppointment,

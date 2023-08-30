@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:master_clinic_flutter_app/widgets/screen_title.dart';
+import '../../models/user.dart';
+import '../../widgets/screen_title.dart';
 import '../../models/appointment.dart';
 import '../../widgets/appointment_list_item.dart';
 
@@ -22,13 +23,13 @@ class PatientAppointmentsScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: appointments.length,
         prototypeItem: AppointmentListItem(
-          userRole: 'patient',
+          userRole: UserRole.patient,
           appointment: appointments.first,
           onSelectItem: () {},
         ),
         itemBuilder: (context, index) {
           return AppointmentListItem(
-            userRole: 'patient',
+            userRole: UserRole.patient,
             appointment: appointments[index],
             onSelectItem: () {},
           );

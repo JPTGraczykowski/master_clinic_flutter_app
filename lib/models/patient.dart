@@ -1,7 +1,7 @@
 import './user.dart';
 
 class Patient extends User {
-  static const role = 'patient';
+  static const role = UserRole.patient;
 
   Patient({
     required super.id,

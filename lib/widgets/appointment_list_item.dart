@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:master_clinic_flutter_app/utils/datetime_helper.dart';
+import '../../models/user.dart';
+import '../../utils/datetime_helper.dart';
 
 import '../models/appointment.dart';
 
@@ -11,12 +12,12 @@ class AppointmentListItem extends StatelessWidget {
     required this.onSelectItem,
   });
 
-  final String userRole;
+  final UserRole userRole;
   final Appointment appointment;
   final void Function() onSelectItem;
 
-  String appointmentTargetPersonDetails(String role, Appointment appointment) {
-    if (role == 'doctor') {
+  String appointmentTargetPersonDetails(UserRole role, Appointment appointment) {
+    if (role == UserRole.doctor) {
       return 'Patient: ${appointment.patient.fullName}';
     }
     return 'Doctor: ${appointment.doctor.fullName}';
