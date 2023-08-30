@@ -45,7 +45,7 @@ class AppointmentListItem extends StatelessWidget {
                   ),
             ),
             Text(
-              DatetimeHelper.formatDatetime(appointment.dateTime),
+              DatetimeHelper.formatDatetimeString(appointment.dateTime),
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                   ),
