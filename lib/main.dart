@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Master Clinic',
       theme: theme,
-      // home: const DoctorDashboardScreen(),
-      home: const PatientDashboardScreen(),
+      home: const DoctorDashboardScreen(),
+      // home: const PatientDashboardScreen(),
     );
   }
 }

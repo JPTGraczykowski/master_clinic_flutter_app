@@ -3,6 +3,7 @@ import '../../models/user.dart';
 import '../../widgets/screen_title.dart';
 import '../../widgets/appointment_list_item.dart';
 import '../../models/appointment.dart';
+import 'doctor_appointment_form.dart';
 
 class DoctorAppointmentsScreen extends StatelessWidget {
   const DoctorAppointmentsScreen({
@@ -11,6 +12,17 @@ class DoctorAppointmentsScreen extends StatelessWidget {
   });
 
   final List<Appointment> appointments;
+
+  void onSelectItem(BuildContext context, Appointment appointment) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (ctx) => DoctorAppointmentFormScreen(
+          appointment: appointment,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +43,9 @@ class DoctorAppointmentsScreen extends StatelessWidget {
           return AppointmentListItem(
             userRole: UserRole.doctor,
             appointment: appointments[index],
-            onSelectItem: () {},
+            onSelectItem: () {
+              onSelectItem(context, appointments[index]);
+            },
           );
         },
       ),
