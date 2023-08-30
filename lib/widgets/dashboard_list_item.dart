@@ -16,7 +16,10 @@ class DashboardListItem extends StatelessWidget {
       onTap: onSelectItem,
       splashColor: Theme.of(context).primaryColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+        padding: const EdgeInsets.symmetric(
+          vertical: 8,
+          horizontal: 0,
+        ),
         child: Container(
           height: 50,
           color: Theme.of(context).colorScheme.primary,

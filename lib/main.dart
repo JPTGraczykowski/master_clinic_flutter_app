@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:master_clinic_flutter_app/data/mock_data.dart';
-import 'package:master_clinic_flutter_app/screens/doctor/doctor_appointments.dart';
-
-import 'package:master_clinic_flutter_app/screens/doctor/doctor_dashboard.dart';
+import '../../data/mock_data.dart';
+import '../../screens/doctor/doctor_appointments.dart';
+import '../../screens/doctor/doctor_dashboard.dart';
+import '../../screens/patient/patient_dashboard.dart';
 
 final theme = ThemeData(
   useMaterial3: true,
@@ -25,7 +25,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Master Clinic',
       theme: theme,
-      home: const DoctorDashboardScreen(),
+      // home: const DoctorDashboardScreen(),
+      home: const PatientDashboardScreen(),
     );
   }
 }

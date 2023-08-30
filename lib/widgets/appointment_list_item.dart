@@ -6,12 +6,21 @@ import '../models/appointment.dart';
 class AppointmentListItem extends StatelessWidget {
   const AppointmentListItem({
     super.key,
+    required this.userRole,
     required this.appointment,
     required this.onSelectItem,
   });
 
+  final String userRole;
   final Appointment appointment;
   final void Function() onSelectItem;
+
+  String appointmentTargetPersonDetails(String role, Appointment appointment) {
+    if (role == 'doctor') {
+      return 'Patient: ${appointment.patient.fullName}';
+    }
+    return 'Doctor: ${appointment.doctor.fullName}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +28,7 @@ class AppointmentListItem extends StatelessWidget {
       elevation: 5,
       margin: EdgeInsets.symmetric(
         vertical: 7.5,
-        horizontal: 0,
+        horizontal: 5,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
@@ -48,7 +57,7 @@ class AppointmentListItem extends StatelessWidget {
                   ),
             ),
             Text(
-              'Patient: ${appointment.patient.fullName}',
+              appointmentTargetPersonDetails(userRole, appointment),
             ),
             Text(
               'Cabinet: ${appointment.cabinet.name}',

@@ -15,7 +15,7 @@ class CabinetListItem extends StatelessWidget {
       elevation: 5,
       margin: EdgeInsets.symmetric(
         vertical: 7.5,
-        horizontal: 0,
+        horizontal: 5,
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(
