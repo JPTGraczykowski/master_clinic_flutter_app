@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:master_clinic_flutter_app/screens/patient/patient_new_appointment.dart';
 import '../../data/mock_data.dart';
 import '../../screens/patient/patient_appointments.dart';
 import '../../widgets/dashboard_list_item.dart';
@@ -16,6 +17,14 @@ class PatientDashboardScreen extends StatelessWidget {
             builder: (ctx) => PatientAppointmentsScreen(
               appointments: mockAppointments,
             ),
+          ),
+        );
+        break;
+      case 'new_appointment':
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (ctx) => PatientNewAppointmentScreen(),
           ),
         );
         break;
@@ -44,8 +53,10 @@ class PatientDashboardScreen extends StatelessWidget {
           ),
           DashboardListItem(
             title: 'Add New Appointment',
-            onSelectItem: () {},
-          )
+            onSelectItem: () {
+              onSelectItem(context, 'new_appointment');
+            },
+          ),
         ],
       ),
     );
