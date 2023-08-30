@@ -25,45 +25,48 @@ class AppointmentListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      margin: EdgeInsets.symmetric(
-        vertical: 7.5,
-        horizontal: 5,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 15,
-          horizontal: 0,
+    return InkWell(
+      onTap: onSelectItem,
+      child: Card(
+        elevation: 5,
+        margin: EdgeInsets.symmetric(
+          vertical: 7.5,
+          horizontal: 5,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'ID: #${appointment.id}',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-            ),
-            Text(
-              DatetimeHelper.formatDatetimeString(appointment.dateTime),
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-            ),
-            Text(
-              appointment.specialty.name,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-            ),
-            Text(
-              appointmentTargetPersonDetails(userRole, appointment),
-            ),
-            Text(
-              'Cabinet: ${appointment.cabinet.name}',
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 15,
+            horizontal: 0,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'ID: #${appointment.id}',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              ),
+              Text(
+                DatetimeHelper.formatDatetimeString(appointment.dateTime),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              ),
+              Text(
+                appointment.specialty.name,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+              ),
+              Text(
+                appointmentTargetPersonDetails(userRole, appointment),
+              ),
+              Text(
+                'Cabinet: ${appointment.cabinet.name}',
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:intl/intl.dart';
+import 'package:master_clinic_flutter_app/models/appointment.dart';
 import 'package:master_clinic_flutter_app/models/user.dart';
 import '../../utils/input_decoration.dart';
 import '../../widgets/primary_button.dart';
@@ -10,9 +11,11 @@ class AppointmentForm extends StatefulWidget {
   const AppointmentForm({
     super.key,
     required this.userRole,
+    this.appointment,
   });
 
   final UserRole userRole;
+  final Appointment? appointment;
 
   @override
   State<AppointmentForm> createState() => _AppointmentFormState();

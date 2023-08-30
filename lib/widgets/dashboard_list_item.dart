@@ -14,7 +14,6 @@ class DashboardListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onSelectItem,
-      splashColor: Theme.of(context).primaryColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 8,

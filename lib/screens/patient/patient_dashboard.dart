@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:master_clinic_flutter_app/screens/patient/patient_new_appointment.dart';
+import 'package:master_clinic_flutter_app/screens/patient/patient_appointment_form.dart';
 import '../../data/mock_data.dart';
 import '../../screens/patient/patient_appointments.dart';
 import '../../widgets/dashboard_list_item.dart';
@@ -24,7 +24,7 @@ class PatientDashboardScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => PatientNewAppointmentScreen(),
+            builder: (ctx) => PatientAppointmentFormScreen(),
           ),
         );
         break;
