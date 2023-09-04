@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../screens/sign_in.dart';
 import '../../data/mock_data.dart';
 import '../../screens/doctor/doctor_appointments.dart';
 import '../../screens/doctor/doctor_dashboard.dart';
@@ -23,10 +24,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Master Clinic',
-      theme: theme,
-      home: const DoctorDashboardScreen(),
-      // home: const PatientDashboardScreen(),
-    );
+        title: 'Master Clinic',
+        theme: theme,
+        // home: const DoctorDashboardScreen(),
+        // home: const PatientDashboardScreen(),
+        home: SignInScreen());
   }
 }
