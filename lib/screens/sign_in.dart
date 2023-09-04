@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:master_clinic_flutter_app/widgets/primary_button.dart';
+import 'package:http/http.dart' as http;
+import '../../utils/api_helper.dart';
+import '../../widgets/overlay_widget.dart';
+import '../../widgets/primary_button.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -10,9 +14,55 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  late String _email;
-  late String _password;
-  bool _isSaving = false;
+  String _email = '';
+  String _password = '';
+  bool _isLoading = false;
+  String _error = '';
+
+  void onSignIn(BuildContext context) async {
+    context.loaderOverlay.show();
+    setState(() {
+      _isLoading = true;
+    });
+    final url = Uri.http(ApiHelper.hostName, 'users/sign_in.json');
+    Map<String, Map<String, String>> body = {
+      "user": {
+        "email": _email,
+        "password": _password,
+      }
+    };
+
+    try {
+      final response = await http.post(
+        url,
+        headers: ApiHelper.defaultHeaders,
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode >= 400) {
+        setState(() {
+          onFailureSignIn(context);
+          return;
+        });
+      }
+
+      final Map<String, dynamic> responseData = json.decode(response.body);
+      _isLoading = false;
+      context.loaderOverlay.hide();
+      print(responseData);
+    } catch (error) {
+      print(error);
+      onFailureSignIn(context);
+    }
+  }
+
+  void onFailureSignIn(BuildContext context) {
+    setState(() {
+      _error = 'Something went wrong. Please try again later.';
+      _isLoading = false;
+      context.loaderOverlay.hide();
+    });
+  }
 
   InputDecoration loginInputDecoration({
     required String label,
@@ -32,12 +82,16 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: LoaderOverlay(
+        overlayWidget: OverlayWidget(),
+        overlayColor: Theme.of(context).colorScheme.background,
+        overlayOpacity: 0.8,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: 128.0,
             horizontal: 32.0,
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
@@ -69,12 +123,17 @@ class _SignInScreenState extends State<SignInScreen> {
                   _password = value;
                 },
                 decoration: loginInputDecoration(label: 'password'),
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
               ),
               SizedBox(
                 height: 32.0,
               ),
               PrimaryButton(
-                onPressed: _isSaving ? null : () {},
+                onPressed: () {
+                  onSignIn(context);
+                },
                 content: Text(
                   'Sign In',
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
