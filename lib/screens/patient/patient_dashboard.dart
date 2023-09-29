@@ -6,7 +6,9 @@ import '../../widgets/dashboard_list_item.dart';
 import '../../widgets/screen_title.dart';
 
 class PatientDashboardScreen extends StatelessWidget {
-  const PatientDashboardScreen({super.key});
+  const PatientDashboardScreen({
+    super.key,
+  });
 
   void onSelectItem(BuildContext context, String item) {
     switch (item) {

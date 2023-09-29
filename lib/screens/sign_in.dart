@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:master_clinic_flutter_app/models/user.dart';
+import '../../screens/doctor/doctor_dashboard.dart';
+import '../../screens/patient/patient_dashboard.dart';
 import '../../utils/api_helper.dart';
 import '../../widgets/overlay_widget.dart';
 import '../../widgets/primary_button.dart';
@@ -23,7 +26,7 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() {
       _isLoading = true;
     });
-    final Uri url = ApiHelper.authLogin;
+    final Uri url = ApiHelper.authLogin();
 
     Map<String, Map<String, String>> body = {
       "user": {
@@ -36,20 +39,31 @@ class _SignInScreenState extends State<SignInScreen> {
       final response = await ApiHelper.sendPostRequest(url, body);
 
       if (response.statusCode >= 400) {
-        setState(() {
-          onFailureSignIn(context);
-          return;
-        });
+        onFailureSignIn(context);
+        return;
       }
 
       final Map<String, dynamic> responseData = json.decode(response.body);
-      _isLoading = false;
-      context.loaderOverlay.hide();
-      print(responseData);
+      onSuccessfulSignIn(context, responseData);
     } catch (error) {
       print(error);
       onFailureSignIn(context);
     }
+  }
+
+  void onSuccessfulSignIn(BuildContext context, Map<String, dynamic> responseData) async {
+    String id = responseData['id'].toString();
+    UserRole role = UserRole.values.byName(responseData['role']);
+
+    Widget dashboard =
+        role == UserRole.doctor || role == UserRole.admin ? DoctorDashboardScreen() : PatientDashboardScreen();
+
+    _isLoading = false;
+    context.loaderOverlay.hide();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => dashboard),
+    );
   }
 
   void onFailureSignIn(BuildContext context) {

@@ -4,8 +4,8 @@ import './cabinet.dart';
 
 class Doctor extends User {
   static const role = UserRole.doctor;
-  final Specialty specialty;
-  final Cabinet cabinet;
+  final Specialty? specialty;
+  final Cabinet? cabinet;
 
   Doctor({
     required super.id,
@@ -15,7 +15,7 @@ class Doctor extends User {
     required super.fullName,
     required super.telephone,
     required super.active,
-    required this.specialty,
-    required this.cabinet,
+    this.specialty,
+    this.cabinet,
   });
 }

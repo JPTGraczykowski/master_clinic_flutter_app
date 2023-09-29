@@ -18,7 +18,29 @@ class ApiHelper {
     return response;
   }
 
+  static Future<http.Response> sendGetRequest(Uri url) async {
+    http.Response response = await http.get(
+      url,
+      headers: headers,
+    );
+
+    return response;
+  }
+
   // routes
-  static Uri authLogin = Uri.http(base, 'users/sign_in.json');
-  static Uri authLogout = Uri.http(base, 'users/sign_out.json');
+  static Uri authLogin() {
+    return Uri.http(base, 'users/sign_in.json');
+  }
+
+  static Uri authLogout() {
+    return Uri.http(base, 'users/sign_out.json');
+  }
+
+  static Uri doctorsShow(String id) {
+    return Uri.http(base, 'doctors/$id');
+  }
+
+  static Uri patientsShow(String id) {
+    return Uri.http(base, 'patients/$id');
+  }
 }
