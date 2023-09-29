@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:http/http.dart' as http;
 import '../../utils/api_helper.dart';
 import '../../widgets/overlay_widget.dart';
 import '../../widgets/primary_button.dart';
@@ -24,7 +23,8 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() {
       _isLoading = true;
     });
-    final url = Uri.http(ApiHelper.hostName, 'users/sign_in.json');
+    final Uri url = ApiHelper.authLogin;
+
     Map<String, Map<String, String>> body = {
       "user": {
         "email": _email,
@@ -33,11 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
     };
 
     try {
-      final response = await http.post(
-        url,
-        headers: ApiHelper.defaultHeaders,
-        body: jsonEncode(body),
-      );
+      final response = await ApiHelper.sendPostRequest(url, body);
 
       if (response.statusCode >= 400) {
         setState(() {
