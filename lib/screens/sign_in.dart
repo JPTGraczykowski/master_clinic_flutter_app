@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:master_clinic_flutter_app/models/user.dart';
+import '../../main.dart';
+import '../../models/user.dart';
 import '../../screens/doctor/doctor_dashboard.dart';
 import '../../screens/patient/patient_dashboard.dart';
 import '../../utils/api_helper.dart';
@@ -20,6 +22,17 @@ class _SignInScreenState extends State<SignInScreen> {
   String _password = '';
   bool _isLoading = false;
   String _error = '';
+
+  void saveAuthorizationTokenInStorage(Response response) {
+    String token = response.headers['authorization']!;
+    storage.write(key: 'authorization_token', value: token);
+  }
+
+  void saveUserAttributesInStorage(String id, UserRole role) {
+    String stringRole = role.name;
+    storage.write(key: 'user_id', value: id);
+    storage.write(key: 'user_role', value: stringRole);
+  }
 
   void onSignIn(BuildContext context) async {
     context.loaderOverlay.show();
@@ -43,17 +56,20 @@ class _SignInScreenState extends State<SignInScreen> {
         return;
       }
 
-      final Map<String, dynamic> responseData = json.decode(response.body);
-      onSuccessfulSignIn(context, responseData);
+      onSuccessfulSignIn(context, response);
     } catch (error) {
       print(error);
       onFailureSignIn(context);
     }
   }
 
-  void onSuccessfulSignIn(BuildContext context, Map<String, dynamic> responseData) async {
+  void onSuccessfulSignIn(BuildContext context, Response response) async {
+    final Map<String, dynamic> responseData = json.decode(response.body);
     String id = responseData['id'].toString();
     UserRole role = UserRole.values.byName(responseData['role']);
+
+    saveAuthorizationTokenInStorage(response);
+    saveUserAttributesInStorage(id, role);
 
     Widget dashboard =
         role == UserRole.doctor || role == UserRole.admin ? DoctorDashboardScreen() : PatientDashboardScreen();
@@ -113,7 +129,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
               ),
               Text(
-                'Please sing in',
+                'Please sign in',
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
