@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import './constants.dart';
 
 class ApiHelper {
-  static String base = '127.0.0.1:3000';
+  static String base = Constants.API_BASE;
 
   static Map<String, String> headers = {
     'Content-Type': 'application/json; charset=UTF-8',
