@@ -1,5 +1,6 @@
-import 'package:master_clinic_flutter_app/models/cabinet.dart';
-import 'package:master_clinic_flutter_app/models/specialty.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'user.g.dart';
 
 enum UserRole {
   admin,
@@ -7,6 +8,7 @@ enum UserRole {
   patient,
 }
 
+@JsonSerializable(fieldRename: FieldRename.snake)
 class User {
   final String id;
   final UserRole role;
@@ -29,6 +31,10 @@ class User {
     this.specialtyId,
     this.cabinetId,
   });
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 
   String get fullName {
     return '$firstName $lastName';
