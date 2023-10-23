@@ -1,9 +1,8 @@
 import 'package:master_clinic_flutter_app/models/appointment.dart';
 import 'package:master_clinic_flutter_app/models/cabinet.dart';
 import 'package:master_clinic_flutter_app/models/datetime_slot.dart';
-import 'package:master_clinic_flutter_app/models/doctor.dart';
-import 'package:master_clinic_flutter_app/models/patient.dart';
 import 'package:master_clinic_flutter_app/models/specialty.dart';
+import 'package:master_clinic_flutter_app/models/user.dart';
 
 final mockCabinets = [
   Cabinet(id: '1', name: 'Cabinet 1', floor: 1),
@@ -18,68 +17,68 @@ final mockSpecialties = [
 ];
 
 final mockPatients = [
-  Patient(
+  User(
     id: '1',
+    role: UserRole.patient,
     email: 'patient1@masterclinic.com',
     firstName: 'Name 1',
     lastName: 'Last Name 1',
-    fullName: 'Name 1 Last Name 1',
     telephone: '48 000 111 222',
     active: true,
   ),
-  Patient(
+  User(
     id: '2',
+    role: UserRole.patient,
     email: 'patient2@masterclinic.com',
     firstName: 'Name 2',
     lastName: 'Last Name 2',
-    fullName: 'Name 2 Last Name 2',
     telephone: '48 000 111 222',
     active: true,
   ),
-  Patient(
+  User(
     id: '3',
+    role: UserRole.patient,
     email: 'patient3@masterclinic.com',
     firstName: 'Name 3',
     lastName: 'Last Name 3',
-    fullName: 'Name 3 Last Name 3',
     telephone: '48 000 111 222',
     active: true,
   ),
 ];
 
 final mockDoctors = [
-  Doctor(
-    id: '1',
+  User(
+    id: '4',
+    role: UserRole.doctor,
     email: 'doctor1@masterclinic.com',
     firstName: 'Name 1',
     lastName: 'Last Name 1',
-    fullName: 'Name 1 Last Name 1',
     telephone: '48 000 111 222',
     active: true,
-    specialty: mockSpecialties[0],
-    cabinet: mockCabinets[0],
+    specialtyId: mockSpecialties[0].id,
+    cabinetId: mockCabinets[0].id,
   ),
-  Doctor(
-    id: '2',
+  User(
+    id: '5',
+    role: UserRole.doctor,
     email: 'doctor2@masterclinic.com',
     firstName: 'Name 2',
     lastName: 'Last Name 2',
-    fullName: 'Name 2 Last Name 2',
     telephone: '48 000 111 222',
     active: true,
-    specialty: mockSpecialties[1],
-    cabinet: mockCabinets[1],
+    specialtyId: mockSpecialties[1].id,
+    cabinetId: mockCabinets[1].id,
   ),
-  Doctor(
-    id: '3',
+  User(
+    id: '6',
+    role: UserRole.doctor,
     email: 'doctor3@masterclinic.com',
     firstName: 'Name 3',
     lastName: 'Last Name 3',
-    fullName: 'Name 3 Last Name 3',
     telephone: '48 000 111 222',
     active: true,
-    specialty: mockSpecialties[2],
-    cabinet: mockCabinets[2],
+    specialtyId: mockSpecialties[2].id,
+    cabinetId: mockCabinets[2].id,
   ),
 ];
 
