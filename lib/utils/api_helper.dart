@@ -1,47 +1,59 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:master_clinic_flutter_app/utils/request_interceptor.dart';
 import './constants.dart';
 
 class ApiHelper {
-  static String base = Constants.API_BASE;
+  String base = Constants.API_BASE;
 
-  static Map<String, String> headers = {
-    'Content-Type': 'application/json; charset=UTF-8',
-  };
-
-  static Future<http.Response> sendPostRequest(Uri url, Map<String, Map<String, String>> body) async {
-    http.Response response = await http.post(
-      url,
-      headers: headers,
-      body: jsonEncode(body),
-    );
-
-    return response;
+  static Dio createDio() {
+    Dio dio = Dio();
+    dio.options.baseUrl = Constants.API_BASE;
+    dio.options.contentType = Headers.jsonContentType;
+    dio.interceptors.add(RequestInterceptor());
+    return dio;
   }
 
-  static Future<http.Response> sendGetRequest(Uri url) async {
-    http.Response response = await http.get(
-      url,
-      headers: headers,
-    );
+  static Future<Response?> sendPostRequest(String url, Map<String, Map<String, String>> body) async {
+    final dio = createDio();
 
-    return response;
+    try {
+      return await dio.post(
+        url,
+        data: body,
+      );
+    } catch (error) {
+      print(error);
+      return null;
+    }
+  }
+
+  static Future<Response?> sendGetRequest(String url) async {
+    final dio = createDio();
+
+    try {
+      return await dio.get(
+        url,
+      );
+    } catch (error) {
+      print(error);
+      return null;
+    }
   }
 
   // routes
-  static Uri authLogin() {
-    return Uri.http(base, 'users/sign_in.json');
+  static String authLogin() {
+    return 'users/sign_in.json';
   }
 
-  static Uri authLogout() {
-    return Uri.http(base, 'users/sign_out.json');
+  static String authLogout() {
+    return 'users/sign_out.json';
   }
 
-  static Uri doctorsShow(String id) {
-    return Uri.http(base, 'doctors/$id');
+  static String doctorsShow(String id) {
+    return 'doctors/$id';
   }
 
-  static Uri patientsShow(String id) {
-    return Uri.http(base, 'patients/$id');
+  static String patientsShow(String id) {
+    return 'patients/$id';
   }
 }

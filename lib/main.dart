@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../screens/sign_in.dart';
 import '../../screens/doctor/doctor_dashboard.dart';
@@ -18,11 +17,7 @@ final theme = ThemeData(
 final storage = FlutterSecureStorage();
 
 void main() {
-  runApp(
-    ProviderScope(
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

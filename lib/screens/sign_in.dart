@@ -23,15 +23,25 @@ class _SignInScreenState extends State<SignInScreen> {
   bool _isLoading = false;
   String _error = '';
 
-  void saveAuthorizationTokenInStorage(Response response) {
-    String token = response.headers['authorization']!;
-    storage.write(key: 'authorization_token', value: token);
+  void saveAuthorizationTokenInStorage(String token) async {
+    await storage.write(key: 'authorization_token', value: token);
   }
 
-  void saveUserAttributesInStorage(String id, UserRole role) {
-    String stringRole = role.name;
-    storage.write(key: 'user_id', value: id);
-    storage.write(key: 'user_role', value: stringRole);
+  void saveUserInState(Response response) {
+    final Map<String, dynamic> responseData = json.decode(response.body);
+
+    String id = responseData['id'].toString();
+    UserRole role = UserRole.values.byName(responseData['role']);
+
+    User user = User(
+      id: id,
+      role: role,
+      email: responseData['email'],
+      firstName: responseData['first_name'],
+      lastName: responseData['last_name'],
+      telephone: responseData['telephone'],
+      active: responseData['active'],
+    );
   }
 
   void onSignIn(BuildContext context) async {
@@ -39,8 +49,7 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() {
       _isLoading = true;
     });
-    final Uri url = ApiHelper.authLogin();
-
+    final String url = ApiHelper.authLogin();
     Map<String, Map<String, String>> body = {
       "user": {
         "email": _email,
@@ -51,25 +60,27 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       final response = await ApiHelper.sendPostRequest(url, body);
 
-      if (response.statusCode >= 400) {
+      if (response == null) {
         onFailureSignIn(context);
         return;
       }
 
-      onSuccessfulSignIn(context, response);
+      Map<String, dynamic> responseData = response.data;
+      String token = response.headers['authorization'] as String;
+
+      onSuccessfulSignIn(context, responseData, token);
     } catch (error) {
       print(error);
       onFailureSignIn(context);
     }
   }
 
-  void onSuccessfulSignIn(BuildContext context, Response response) async {
-    final Map<String, dynamic> responseData = json.decode(response.body);
+  void onSuccessfulSignIn(BuildContext context, Map<String, dynamic> responseData, String token) async {
     String id = responseData['id'].toString();
     UserRole role = UserRole.values.byName(responseData['role']);
 
-    saveAuthorizationTokenInStorage(response);
-    saveUserAttributesInStorage(id, role);
+    saveAuthorizationTokenInStorage(token);
+    // saveUserAttributesInStorage(id, role);
 
     Widget dashboard =
         role == UserRole.doctor || role == UserRole.admin ? DoctorDashboardScreen() : PatientDashboardScreen();
