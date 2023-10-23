@@ -40,8 +40,6 @@ dependencies:
   loader_overlay: ^2.3.2
   http: ^1.1.0
   flutter_secure_storage: ^9.0.0
-  flutter_riverpod: ^2.4.4
-  riverpod_annotation: ^2.2.1
   json_annotation: ^4.8.1
 
 dev_dependencies:
