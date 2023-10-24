@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../screens/sign_in.dart';
 import '../../screens/doctor/doctor_dashboard.dart';
 import '../../screens/patient/patient_dashboard.dart';
@@ -23,10 +24,12 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  Future<List<String>> get authorizationToken async {
+  Future<List<String>> get authData async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     String? token = await storage.read(key: 'authorization_token');
-    String? userId = await storage.read(key: 'user_id');
-    String? userRole = await storage.read(key: 'user_role');
+    String? userId = prefs.getString('user_id');
+    String? userRole = prefs.getString('user_role');
 
     if (token != null && userId != null && userRole != null) {
       return [token, userId, userRole];
@@ -42,12 +45,11 @@ class MyApp extends StatelessWidget {
         title: 'Master Clinic',
         theme: theme,
         home: FutureBuilder(
-          future: authorizationToken,
+          future: authData,
           builder: (context, snapshot) {
             if (!snapshot.hasData) return CircularProgressIndicator();
             if (snapshot.data!.length == 3) {
               String token = snapshot.data![0];
-              String userId = snapshot.data![1];
               String userRole = snapshot.data![2];
 
               List<String> splitToken = token.split('.');

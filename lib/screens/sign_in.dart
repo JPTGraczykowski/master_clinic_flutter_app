@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../main.dart';
 import '../../models/user.dart';
 import '../../screens/doctor/doctor_dashboard.dart';
@@ -27,21 +28,11 @@ class _SignInScreenState extends State<SignInScreen> {
     await storage.write(key: 'authorization_token', value: token);
   }
 
-  void saveUserInState(Response response) {
-    final Map<String, dynamic> responseData = json.decode(response.body);
-
-    String id = responseData['id'].toString();
-    UserRole role = UserRole.values.byName(responseData['role']);
-
-    User user = User(
-      id: id,
-      role: role,
-      email: responseData['email'],
-      firstName: responseData['first_name'],
-      lastName: responseData['last_name'],
-      telephone: responseData['telephone'],
-      active: responseData['active'],
-    );
+  void saveUserInState(Map<String, dynamic> responseData) async {
+    User user = User.fromJson(responseData);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user_id', user.id);
+    await prefs.setString('user_role', user.role.name);
   }
 
   void onSignIn(BuildContext context) async {
@@ -66,7 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
       }
 
       Map<String, dynamic> responseData = response.data;
-      String token = response.headers['authorization'] as String;
+      String token = response.headers['authorization']!.first;
 
       onSuccessfulSignIn(context, responseData, token);
     } catch (error) {
@@ -76,11 +67,10 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void onSuccessfulSignIn(BuildContext context, Map<String, dynamic> responseData, String token) async {
-    String id = responseData['id'].toString();
     UserRole role = UserRole.values.byName(responseData['role']);
 
     saveAuthorizationTokenInStorage(token);
-    // saveUserAttributesInStorage(id, role);
+    saveUserInState(responseData);
 
     Widget dashboard =
         role == UserRole.doctor || role == UserRole.admin ? DoctorDashboardScreen() : PatientDashboardScreen();

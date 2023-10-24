@@ -10,7 +10,9 @@ enum UserRole {
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class User {
+  @JsonKey(fromJson: _stringFromInt)
   final String id;
+
   final UserRole role;
   final String email;
   final String firstName;
@@ -39,4 +41,6 @@ class User {
   String get fullName {
     return '$firstName $lastName';
   }
+
+  static String _stringFromInt(int number) => number.toString();
 }
