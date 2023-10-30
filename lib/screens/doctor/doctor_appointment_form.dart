@@ -7,22 +7,22 @@ import '../../widgets/forms/appointment_form.dart';
 class DoctorAppointmentFormScreen extends StatelessWidget {
   const DoctorAppointmentFormScreen({
     super.key,
-    required this.appointment,
+    required this.appointmentId,
   });
 
-  final Appointment appointment;
+  final int appointmentId;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: ScreenTitle(
-          title: 'Appointment #${appointment.id}',
+          title: 'Appointment #$appointmentId',
         ),
       ),
       body: AppointmentForm(
         userRole: UserRole.doctor,
-        appointment: appointment,
+        appointmentId: appointmentId,
       ),
     );
   }

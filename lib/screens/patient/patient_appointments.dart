@@ -54,7 +54,7 @@ class _PatientAppointmentsScreenState extends State<PatientAppointmentsScreen> {
       context,
       MaterialPageRoute(
         builder: (ctx) => PatientAppointmentFormScreen(
-          appointment: appointment,
+          appointmentId: appointment.id,
         ),
       ),
     );

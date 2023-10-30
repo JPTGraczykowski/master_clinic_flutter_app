@@ -69,15 +69,19 @@ class ApiHelper {
     return 'users/sign_out.json';
   }
 
-  static String doctorsShow(String id) {
+  static String doctorsShow(int id) {
     return 'doctors/$id';
   }
 
-  static String patientsShow(String id) {
+  static String patientsShow(int id) {
     return 'patients/$id';
   }
 
   static String appointmentsIndex() {
     return 'appointments';
+  }
+
+  static String appointmentShow(int id) {
+    return 'appointments/${id.toString()}';
   }
 }
