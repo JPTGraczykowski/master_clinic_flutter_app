@@ -44,22 +44,19 @@ class _SignInScreenState extends State<SignInScreen> {
       }
     };
 
-    try {
-      final response = await ApiHelper.sendPostRequest(url, body);
+    final response = await ApiHelper.sendPostRequest(url, body);
 
-      if (response == null) {
-        onFailureSignIn(context);
-        return;
-      }
-
-      Map<String, dynamic> responseData = response.data;
-      String token = response.headers['authorization']!.first;
-
-      onSuccessfulSignIn(context, responseData, token);
-    } catch (error) {
-      print(error);
-      onFailureSignIn(context);
+    if (response != null && response.statusCode! >= 400) {
+      onFailureSignIn(context, response.statusCode);
+      return;
+    } else if (response == null) {
+      onFailureSignIn(context, null);
     }
+
+    Map<String, dynamic> responseData = response!.data;
+    String token = response.headers['authorization']!.first;
+
+    onSuccessfulSignIn(context, responseData, token);
   }
 
   void onSuccessfulSignIn(BuildContext context, Map<String, dynamic> responseData, String token) async {
@@ -78,15 +75,22 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  void onFailureSignIn(BuildContext context) {
+  void onFailureSignIn(BuildContext context, int? responseCode) {
+    String errorMessage;
+    if (responseCode == 401) {
+      errorMessage = 'Invalid email or password. Please try again.';
+    } else {
+      errorMessage = 'Something went wrong. Please try again later.';
+    }
     setState(() {
-      _error = 'Something went wrong. Please try again later.';
+      _error = errorMessage;
       context.loaderOverlay.hide();
     });
   }
 
   InputDecoration loginInputDecoration({
     required String label,
+    bool isPasswordInput = false,
   }) =>
       InputDecoration(
         enabledBorder: OutlineInputBorder(
@@ -97,6 +101,7 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         border: OutlineInputBorder(borderSide: BorderSide()),
         labelText: label,
+        errorText: isPasswordInput && _error != '' ? _error : null,
       );
 
   @override
@@ -133,6 +138,9 @@ class _SignInScreenState extends State<SignInScreen> {
               TextField(
                 onChanged: (value) {
                   _email = value;
+                  setState(() {
+                    _error = '';
+                  });
                 },
                 decoration: loginInputDecoration(label: 'e-mail'),
               ),
@@ -142,8 +150,14 @@ class _SignInScreenState extends State<SignInScreen> {
               TextField(
                 onChanged: (value) {
                   _password = value;
+                  setState(() {
+                    _error = '';
+                  });
                 },
-                decoration: loginInputDecoration(label: 'password'),
+                decoration: loginInputDecoration(
+                  label: 'password',
+                  isPasswordInput: true,
+                ),
                 obscureText: true,
                 enableSuggestions: false,
                 autocorrect: false,

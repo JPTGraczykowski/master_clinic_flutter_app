@@ -21,9 +21,8 @@ class ApiHelper {
         url,
         data: body,
       );
-    } catch (error) {
-      print(error);
-      return null;
+    } on DioException catch (error) {
+      return handleBadResponse(error);
     }
   }
 
@@ -34,9 +33,8 @@ class ApiHelper {
       return await dio.get(
         url,
       );
-    } catch (error) {
-      print(error);
-      return null;
+    } on DioException catch (error) {
+      return handleBadResponse(error);
     }
   }
 
@@ -47,10 +45,19 @@ class ApiHelper {
       return await dio.delete(
         url,
       );
-    } catch (error) {
-      print(error);
-      return null;
+    } on DioException catch (error) {
+      return handleBadResponse(error);
     }
+  }
+
+  static Response? handleBadResponse(DioException error) {
+    print(error);
+    final response = error.response;
+    if (response != null) {
+      return response;
+    }
+    print(error.message);
+    return null;
   }
 
   // routes
