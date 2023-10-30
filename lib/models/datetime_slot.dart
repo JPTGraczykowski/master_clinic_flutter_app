@@ -1,8 +1,8 @@
-import './doctor.dart';
+import './user.dart';
 
 class DatetimeSlot {
   final String id;
-  final Doctor doctor;
+  final User doctor;
   final String slotDatetime;
   final bool isFree;
 

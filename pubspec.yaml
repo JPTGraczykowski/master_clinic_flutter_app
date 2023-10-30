@@ -37,6 +37,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   intl: ^0.18.1
   date_field: ^3.0.5
+  loader_overlay: ^2.3.2
+  http: ^1.1.0
+  flutter_secure_storage: ^9.0.0
+  json_annotation: ^4.8.1
+  dio: ^5.3.3
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +54,11 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  riverpod_generator: ^2.3.5
+  build_runner: ^2.4.6
+  custom_lint: ^0.5.4
+  riverpod_lint: ^2.3.2
+  json_serializable: ^6.7.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

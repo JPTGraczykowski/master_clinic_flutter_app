@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:master_clinic_flutter_app/screens/patient/patient_appointment_form.dart';
+import '../../screens/patient/patient_appointment_form.dart';
+import '../../widgets/sign_out_button.dart';
 import '../../data/mock_data.dart';
 import '../../screens/patient/patient_appointments.dart';
 import '../../widgets/dashboard_list_item.dart';
 import '../../widgets/screen_title.dart';
 
 class PatientDashboardScreen extends StatelessWidget {
-  const PatientDashboardScreen({super.key});
+  const PatientDashboardScreen({
+    super.key,
+  });
 
   void onSelectItem(BuildContext context, String item) {
     switch (item) {
@@ -39,23 +42,33 @@ class PatientDashboardScreen extends StatelessWidget {
           title: 'Dashboard',
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(
-          vertical: 7.5,
-          horizontal: 5,
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          DashboardListItem(
-            title: 'My Appointments',
-            onSelectItem: () {
-              onSelectItem(context, 'appointments');
-            },
+          ListView(
+            padding: const EdgeInsets.symmetric(
+              vertical: 7.5,
+              horizontal: 5,
+            ),
+            shrinkWrap: true,
+            children: [
+              DashboardListItem(
+                title: 'My Appointments',
+                onSelectItem: () {
+                  onSelectItem(context, 'appointments');
+                },
+              ),
+              DashboardListItem(
+                title: 'Add New Appointment',
+                onSelectItem: () {
+                  onSelectItem(context, 'new_appointment');
+                },
+              ),
+            ],
           ),
-          DashboardListItem(
-            title: 'Add New Appointment',
-            onSelectItem: () {
-              onSelectItem(context, 'new_appointment');
-            },
+          Padding(
+            padding: const EdgeInsets.only(bottom: 64),
+            child: SignOutButton(),
           ),
         ],
       ),

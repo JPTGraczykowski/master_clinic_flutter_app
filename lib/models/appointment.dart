@@ -1,8 +1,7 @@
 import 'package:intl/intl.dart';
 
 import './specialty.dart';
-import './patient.dart';
-import './doctor.dart';
+import './user.dart';
 import './cabinet.dart';
 
 class Appointment {
@@ -11,8 +10,8 @@ class Appointment {
   final String description;
   final String beforeVisit;
   final Specialty specialty;
-  final Patient patient;
-  final Doctor doctor;
+  final User patient;
+  final User doctor;
   final Cabinet cabinet;
 
   const Appointment({
