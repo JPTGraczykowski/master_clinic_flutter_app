@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../screens/patient/patient_appointment_form.dart';
 import '../../widgets/sign_out_button.dart';
-import '../../data/mock_data.dart';
 import '../../screens/patient/patient_appointments.dart';
 import '../../widgets/dashboard_list_item.dart';
 import '../../widgets/screen_title.dart';
@@ -17,9 +16,7 @@ class PatientDashboardScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => PatientAppointmentsScreen(
-              appointments: mockAppointments,
-            ),
+            builder: (ctx) => PatientAppointmentsScreen(),
           ),
         );
         break;
