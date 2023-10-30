@@ -76,4 +76,8 @@ class ApiHelper {
   static String patientsShow(String id) {
     return 'patients/$id';
   }
+
+  static String appointmentsIndex() {
+    return 'appointments';
+  }
 }
