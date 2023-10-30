@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/sign_out_button.dart';
 import '../../screens/doctor/doctor_cabinets.dart';
 import '../../data/mock_data.dart';
 import '../../screens/doctor/doctor_appointments.dart';
@@ -54,29 +55,39 @@ class DoctorDashboardScreen extends StatelessWidget {
             title: 'Dashboard',
           ),
         ),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(
-            vertical: 7.5,
-            horizontal: 5,
-          ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            DashboardListItem(
-              title: 'My Appointments',
-              onSelectItem: () {
-                onSelectItem(context, 'appointments');
-              },
+            ListView(
+              padding: const EdgeInsets.symmetric(
+                vertical: 7.5,
+                horizontal: 5,
+              ),
+              shrinkWrap: true,
+              children: [
+                DashboardListItem(
+                  title: 'My Appointments',
+                  onSelectItem: () {
+                    onSelectItem(context, 'appointments');
+                  },
+                ),
+                DashboardListItem(
+                  title: 'My Slots',
+                  onSelectItem: () {
+                    onSelectItem(context, 'datetimeSlots');
+                  },
+                ),
+                DashboardListItem(
+                  title: 'My Cabinets',
+                  onSelectItem: () {
+                    onSelectItem(context, 'cabinets');
+                  },
+                ),
+              ],
             ),
-            DashboardListItem(
-              title: 'My Slots',
-              onSelectItem: () {
-                onSelectItem(context, 'datetimeSlots');
-              },
-            ),
-            DashboardListItem(
-              title: 'My Cabinets',
-              onSelectItem: () {
-                onSelectItem(context, 'cabinets');
-              },
+            Padding(
+              padding: const EdgeInsets.only(bottom: 64),
+              child: SignOutButton(),
             ),
           ],
         ));

@@ -21,7 +21,6 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   String _email = '';
   String _password = '';
-  bool _isLoading = false;
   String _error = '';
 
   void saveAuthorizationTokenInStorage(String token) async {
@@ -37,9 +36,6 @@ class _SignInScreenState extends State<SignInScreen> {
 
   void onSignIn(BuildContext context) async {
     context.loaderOverlay.show();
-    setState(() {
-      _isLoading = true;
-    });
     final String url = ApiHelper.authLogin();
     Map<String, Map<String, String>> body = {
       "user": {
@@ -75,7 +71,6 @@ class _SignInScreenState extends State<SignInScreen> {
     Widget dashboard =
         role == UserRole.doctor || role == UserRole.admin ? DoctorDashboardScreen() : PatientDashboardScreen();
 
-    _isLoading = false;
     context.loaderOverlay.hide();
     Navigator.pushReplacement(
       context,
@@ -86,7 +81,6 @@ class _SignInScreenState extends State<SignInScreen> {
   void onFailureSignIn(BuildContext context) {
     setState(() {
       _error = 'Something went wrong. Please try again later.';
-      _isLoading = false;
       context.loaderOverlay.hide();
     });
   }

@@ -40,6 +40,19 @@ class ApiHelper {
     }
   }
 
+  static Future<Response?> sendDeleteRequest(String url) async {
+    final dio = createDio();
+
+    try {
+      return await dio.delete(
+        url,
+      );
+    } catch (error) {
+      print(error);
+      return null;
+    }
+  }
+
   // routes
   static String authLogin() {
     return 'users/sign_in.json';
