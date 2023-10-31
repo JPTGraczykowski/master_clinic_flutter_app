@@ -28,6 +28,17 @@ class _AppointmentFormState extends State<AppointmentForm> {
   bool _isLoading = false;
   String _error = '';
   Appointment? _appointment;
+  int? _specialtyId;
+  String _specialtyText = '';
+  DateTime _appointmentDateTime = DateTime.now();
+  int? _doctorId;
+  String _doctorText = '';
+  int? _patientId;
+  String _patientText = '';
+  int? _cabinetId;
+  String _cabinetText = '';
+  final _descriptionController = TextEditingController();
+  final _beforeVisitController = TextEditingController();
 
   @override
   void initState() {
@@ -54,6 +65,17 @@ class _AppointmentFormState extends State<AppointmentForm> {
     setState(() {
       _appointment = appointment;
       _isLoading = false;
+      _specialtyId = appointment.specialty['id'];
+      _specialtyText = appointment.specialty['text'];
+      _appointmentDateTime = DateTime.parse(appointment.appointmentDatetime);
+      _doctorId = appointment.doctor['id'];
+      _doctorText = appointment.doctor['text'];
+      _patientId = appointment.patient['id'];
+      _patientText = appointment.patient['text'];
+      _cabinetId = appointment.cabinet['id'];
+      _cabinetText = appointment.cabinet['text'];
+      _descriptionController.text = appointment.description;
+      _beforeVisitController.text = appointment.beforeVisit ?? '';
     });
   }
 
@@ -63,14 +85,6 @@ class _AppointmentFormState extends State<AppointmentForm> {
       _isLoading = false;
     });
   }
-
-  String _specialtyId = '';
-  DateTime _dateTime = DateTime.now();
-  String _doctorId = '';
-  String _patientId = '';
-  final _descriptionController = TextEditingController();
-  String _cabinetId = '';
-  final _beforeVisitController = TextEditingController();
 
   void _saveAppointment() {}
 
@@ -97,7 +111,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   labelText: 'Specialty',
                   fillColor: widget.userRole == UserRole.patient ? null : Colors.black12,
                 ),
-                value: _appointment?.specialty['text'],
+                value: _specialtyText,
                 items: [
                   for (final specialty in [])
                     DropdownMenuItem(
@@ -108,7 +122,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                 onChanged: widget.userRole == UserRole.patient
                     ? (value) {
                         setState(() {
-                          _specialtyId = (value!).toString();
+                          _specialtyId = value as int;
                         });
                       }
                     : null,
@@ -119,7 +133,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   context: context,
                   labelText: 'Doctor',
                 ),
-                value: _appointment?.doctor['text'],
+                value: _doctorText,
                 items: [
                   for (final doctor in [])
                     DropdownMenuItem(
@@ -129,7 +143,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                 ],
                 onChanged: (value) {
                   setState(() {
-                    _doctorId = value! as String;
+                    _doctorId = value as int;
                   });
                 },
               ),
@@ -139,11 +153,11 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   context: context,
                   labelText: 'Date and Time',
                 ),
-                selectedDate: _appointment != null ? DateTime.parse(_appointment!.appointmentDatetime) : DateTime.now(),
+                selectedDate: _appointmentDateTime,
                 dateFormat: DateFormat('MMMM dd HH:mm'),
                 onDateSelected: (DateTime value) {
                   setState(() {
-                    _dateTime = value;
+                    _appointmentDateTime = value;
                   });
                 },
               ),
@@ -154,7 +168,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                     context: context,
                     labelText: 'Patient',
                   ),
-                  value: _appointment?.patient['text'],
+                  value: _patientText,
                   items: [
                     for (final patient in [])
                       DropdownMenuItem(
@@ -164,7 +178,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   ],
                   onChanged: (value) {
                     setState(() {
-                      _patientId = value! as String;
+                      _patientId = value as int;
                     });
                   },
                 ),
@@ -187,7 +201,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                     context: context,
                     labelText: 'Cabinet',
                   ),
-                  value: _appointment?.cabinet['text'],
+                  value: _cabinetText,
                   items: [
                     for (final cabinet in [])
                       DropdownMenuItem(
@@ -197,7 +211,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
                   ],
                   onChanged: (value) {
                     setState(() {
-                      _cabinetId = value! as String;
+                      _cabinetId = value as int;
                     });
                   },
                 ),
