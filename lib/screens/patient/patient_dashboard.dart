@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../screens/patient/patient_appointment_form.dart';
+import 'package:master_clinic_flutter_app/screens/shared/appointment_form.dart';
+import '../../models/user.dart';
+import '../../screens/shared/appointments.dart';
 import '../../widgets/sign_out_button.dart';
-import '../../screens/patient/patient_appointments.dart';
 import '../../widgets/dashboard_list_item.dart';
 import '../../widgets/screen_title.dart';
 
@@ -16,7 +17,7 @@ class PatientDashboardScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => PatientAppointmentsScreen(),
+            builder: (ctx) => AppointmentsScreen(userRole: UserRole.patient),
           ),
         );
         break;
@@ -24,7 +25,10 @@ class PatientDashboardScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => PatientAppointmentFormScreen(),
+            builder: (ctx) => AppointmentFormScreen(
+              appointmentId: null,
+              userRole: UserRole.patient,
+            ),
           ),
         );
         break;
