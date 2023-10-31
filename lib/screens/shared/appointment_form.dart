@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:intl/intl.dart';
-import 'package:master_clinic_flutter_app/models/appointment.dart';
-import 'package:master_clinic_flutter_app/models/user.dart';
-import 'package:master_clinic_flutter_app/utils/api_helper.dart';
-import 'package:master_clinic_flutter_app/widgets/forms/fields/api_dropdown_form_field.dart';
-import '../../utils/datetime_helper.dart';
+import '../../models/appointment.dart';
+import '../../models/user.dart';
+import '../../utils/api_helper.dart';
+import '../../widgets/screen_title.dart';
+import '../../widgets/forms/fields/api_dropdown_form_field.dart';
 import '../../utils/input_decoration.dart';
 import '../../widgets/primary_button.dart';
 
-class AppointmentForm extends StatefulWidget {
-  const AppointmentForm({
+class AppointmentFormScreen extends StatefulWidget {
+  const AppointmentFormScreen({
     super.key,
-    required this.userRole,
     this.appointmentId,
+    required this.userRole,
   });
 
-  final UserRole userRole;
   final int? appointmentId;
+  final UserRole userRole;
 
   @override
-  State<AppointmentForm> createState() => _AppointmentFormState();
+  State<AppointmentFormScreen> createState() => _AppointmentFormScreenState();
 }
 
-class _AppointmentFormState extends State<AppointmentForm> {
+class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _isSending = false;
   bool _isLoading = false;
@@ -81,8 +81,7 @@ class _AppointmentFormState extends State<AppointmentForm> {
 
   void _saveAppointment() {}
 
-  @override
-  Widget build(BuildContext context) {
+  Widget renderForm() {
     if (_error != '') {
       return Center(child: Text(_error));
     }
@@ -220,6 +219,18 @@ class _AppointmentFormState extends State<AppointmentForm> {
           ),
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: ScreenTitle(
+          title: widget.appointmentId != null ? 'Appointment #${widget.appointmentId}' : 'New Appointment',
+        ),
+      ),
+      body: renderForm(),
     );
   }
 }
