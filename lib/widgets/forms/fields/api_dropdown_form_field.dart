@@ -8,12 +8,14 @@ class ApiDropdownFormField extends StatelessWidget {
     required this.decoration,
     required this.onChanged,
     this.initialId,
+    this.disabled = false,
   });
 
   final String url;
   final InputDecoration decoration;
   final void Function(Object?)? onChanged;
   final int? initialId;
+  final bool disabled;
 
   Future<List<Map<String, dynamic>>> get items async {
     final response = await ApiHelper.sendGetRequest(url);
@@ -48,7 +50,7 @@ class ApiDropdownFormField extends StatelessWidget {
                 )
             ],
             value: initialId,
-            onChanged: onChanged,
+            onChanged: disabled ? null : onChanged,
             elevation: 16,
             menuMaxHeight: 400,
           );

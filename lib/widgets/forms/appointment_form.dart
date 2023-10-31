@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:master_clinic_flutter_app/models/appointment.dart';
 import 'package:master_clinic_flutter_app/models/user.dart';
 import 'package:master_clinic_flutter_app/utils/api_helper.dart';
+import 'package:master_clinic_flutter_app/widgets/forms/fields/api_dropdown_form_field.dart';
 import '../../utils/datetime_helper.dart';
 import '../../utils/input_decoration.dart';
 import '../../widgets/primary_button.dart';
@@ -29,14 +30,10 @@ class _AppointmentFormState extends State<AppointmentForm> {
   String _error = '';
   Appointment? _appointment;
   int? _specialtyId;
-  String _specialtyText = '';
   DateTime _appointmentDateTime = DateTime.now();
   int? _doctorId;
-  String _doctorText = '';
   int? _patientId;
-  String _patientText = '';
   int? _cabinetId;
-  String _cabinetText = '';
   final _descriptionController = TextEditingController();
   final _beforeVisitController = TextEditingController();
 
@@ -66,14 +63,10 @@ class _AppointmentFormState extends State<AppointmentForm> {
       _appointment = appointment;
       _isLoading = false;
       _specialtyId = appointment.specialty['id'];
-      _specialtyText = appointment.specialty['text'];
       _appointmentDateTime = DateTime.parse(appointment.appointmentDatetime);
       _doctorId = appointment.doctor['id'];
-      _doctorText = appointment.doctor['text'];
       _patientId = appointment.patient['id'];
-      _patientText = appointment.patient['text'];
       _cabinetId = appointment.cabinet['id'];
-      _cabinetText = appointment.cabinet['text'];
       _descriptionController.text = appointment.description;
       _beforeVisitController.text = appointment.beforeVisit ?? '';
     });
@@ -97,6 +90,8 @@ class _AppointmentFormState extends State<AppointmentForm> {
       return Center(child: CircularProgressIndicator());
     }
 
+    bool appointmentExists = widget.appointmentId != null;
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Form(
@@ -105,20 +100,13 @@ class _AppointmentFormState extends State<AppointmentForm> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              DropdownButtonFormField(
+              ApiDropdownFormField(
+                url: ApiHelper.specialties(),
                 decoration: FormHelper.inputDecoration(
                   context: context,
                   labelText: 'Specialty',
                   fillColor: widget.userRole == UserRole.patient ? null : Colors.black12,
                 ),
-                value: _specialtyText,
-                items: [
-                  for (final specialty in [])
-                    DropdownMenuItem(
-                      value: specialty.id,
-                      child: Text(specialty.name),
-                    )
-                ],
                 onChanged: widget.userRole == UserRole.patient
                     ? (value) {
                         setState(() {
@@ -126,26 +114,23 @@ class _AppointmentFormState extends State<AppointmentForm> {
                         });
                       }
                     : null,
+                initialId: _specialtyId,
+                disabled: appointmentExists,
               ),
               SizedBox(height: 16),
-              DropdownButtonFormField(
+              ApiDropdownFormField(
+                url: ApiHelper.doctors(),
                 decoration: FormHelper.inputDecoration(
                   context: context,
                   labelText: 'Doctor',
                 ),
-                value: _doctorText,
-                items: [
-                  for (final doctor in [])
-                    DropdownMenuItem(
-                      value: doctor.id,
-                      child: Text(doctor.fullName),
-                    )
-                ],
                 onChanged: (value) {
                   setState(() {
                     _doctorId = value as int;
                   });
                 },
+                initialId: _doctorId,
+                disabled: appointmentExists,
               ),
               SizedBox(height: 16),
               DateTimeField(
@@ -160,27 +145,22 @@ class _AppointmentFormState extends State<AppointmentForm> {
                     _appointmentDateTime = value;
                   });
                 },
+                enabled: !appointmentExists,
               ),
               SizedBox(height: 16),
               if (widget.userRole == UserRole.doctor) ...[
-                DropdownButtonFormField(
+                ApiDropdownFormField(
+                  url: ApiHelper.patients(),
                   decoration: FormHelper.inputDecoration(
                     context: context,
                     labelText: 'Patient',
                   ),
-                  value: _patientText,
-                  items: [
-                    for (final patient in [])
-                      DropdownMenuItem(
-                        value: patient.id,
-                        child: Text(patient.fullName),
-                      )
-                  ],
                   onChanged: (value) {
                     setState(() {
                       _patientId = value as int;
                     });
                   },
+                  initialId: _patientId,
                 ),
                 SizedBox(height: 16),
               ],
@@ -196,24 +176,18 @@ class _AppointmentFormState extends State<AppointmentForm> {
               ),
               SizedBox(height: 16),
               if (widget.userRole == UserRole.doctor) ...[
-                DropdownButtonFormField(
+                ApiDropdownFormField(
+                  url: ApiHelper.cabinets(),
                   decoration: FormHelper.inputDecoration(
                     context: context,
                     labelText: 'Cabinet',
                   ),
-                  value: _cabinetText,
-                  items: [
-                    for (final cabinet in [])
-                      DropdownMenuItem(
-                        value: cabinet.id,
-                        child: Text(cabinet.name),
-                      ),
-                  ],
                   onChanged: (value) {
                     setState(() {
                       _cabinetId = value as int;
                     });
                   },
+                  initialId: _cabinetId,
                 ),
                 SizedBox(height: 16),
                 TextFormField(

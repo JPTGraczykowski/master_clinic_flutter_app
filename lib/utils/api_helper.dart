@@ -84,4 +84,21 @@ class ApiHelper {
   static String appointmentShow(int id) {
     return 'appointments/${id.toString()}';
   }
+
+  // selectors routes
+  static String specialties() {
+    return 'selectors/specialties';
+  }
+
+  static String doctors() {
+    return 'selectors/doctors';
+  }
+
+  static String patients() {
+    return 'selectors/patients';
+  }
+
+  static String cabinets() {
+    return 'selectors/cabinets';
+  }
 }
