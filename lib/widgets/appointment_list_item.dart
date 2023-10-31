@@ -18,9 +18,9 @@ class AppointmentListItem extends StatelessWidget {
 
   String appointmentTargetPersonDetails(UserRole role, Appointment appointment) {
     if (role == UserRole.doctor) {
-      return 'Patient: ${appointment.patient.fullName}';
+      return 'Patient: ${appointment.patient['text']}';
     }
-    return 'Doctor: ${appointment.doctor.fullName}';
+    return 'Doctor: ${appointment.doctor['text']}';
   }
 
   @override
@@ -48,13 +48,13 @@ class AppointmentListItem extends StatelessWidget {
                     ),
               ),
               Text(
-                DatetimeHelper.formatDatetimeString(appointment.dateTime),
+                DatetimeHelper.formatDatetimeString(appointment.appointmentDatetime),
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
               ),
               Text(
-                appointment.specialty.name,
+                appointment.specialty['text'],
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                     ),
@@ -63,7 +63,7 @@ class AppointmentListItem extends StatelessWidget {
                 appointmentTargetPersonDetails(userRole, appointment),
               ),
               Text(
-                'Cabinet: ${appointment.cabinet.name}',
+                'Cabinet: ${appointment.cabinet['text']}',
               )
             ],
           ),

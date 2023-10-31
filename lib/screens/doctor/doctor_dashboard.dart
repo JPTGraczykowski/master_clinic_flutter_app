@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/sign_out_button.dart';
 import '../../screens/doctor/doctor_cabinets.dart';
-import '../../data/mock_data.dart';
 import '../../screens/doctor/doctor_appointments.dart';
 import '../../screens/doctor/doctor_datetime_slots.dart';
 import '../../widgets/dashboard_list_item.dart';
@@ -19,7 +18,7 @@ class DoctorDashboardScreen extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (ctx) => DoctorAppointmentsScreen(
-              appointments: mockAppointments,
+              appointments: [],
             ),
           ),
         );
@@ -29,7 +28,7 @@ class DoctorDashboardScreen extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (ctx) => DoctorDatetimeSlotsScreen(
-              datetimeSlots: mockDatetimeSlots,
+              datetimeSlots: [],
             ),
           ),
         );
@@ -39,7 +38,7 @@ class DoctorDashboardScreen extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (ctx) => DoctorCabinetsScreen(
-              cabinets: mockCabinets,
+              cabinets: [],
             ),
           ),
         );

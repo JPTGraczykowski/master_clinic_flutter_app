@@ -18,7 +18,7 @@ class DoctorAppointmentsScreen extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (ctx) => DoctorAppointmentFormScreen(
-          appointment: appointment,
+          appointmentId: appointment.id,
         ),
       ),
     );
