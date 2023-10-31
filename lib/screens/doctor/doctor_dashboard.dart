@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../models/user.dart';
+import '../../screens/shared/appointments.dart';
 import '../../widgets/sign_out_button.dart';
 import '../../screens/doctor/doctor_cabinets.dart';
-import '../../screens/doctor/doctor_appointments.dart';
 import '../../screens/doctor/doctor_datetime_slots.dart';
 import '../../widgets/dashboard_list_item.dart';
 import '../../widgets/screen_title.dart';
@@ -17,9 +18,7 @@ class DoctorDashboardScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => DoctorAppointmentsScreen(
-              appointments: [],
-            ),
+            builder: (ctx) => AppointmentsScreen(userRole: UserRole.doctor),
           ),
         );
         break;
