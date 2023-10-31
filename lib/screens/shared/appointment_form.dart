@@ -91,6 +91,10 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
 
     bool appointmentExists = widget.appointmentId != null;
 
+    TextStyle textStyle = Theme.of(context).textTheme.titleMedium!.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+        );
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Form(
@@ -104,15 +108,13 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                 decoration: FormHelper.inputDecoration(
                   context: context,
                   labelText: 'Specialty',
-                  fillColor: widget.userRole == UserRole.patient ? null : Colors.black12,
+                  fillColor: appointmentExists ? Colors.black12 : null,
                 ),
-                onChanged: widget.userRole == UserRole.patient
-                    ? (value) {
-                        setState(() {
-                          _specialtyId = value as int;
-                        });
-                      }
-                    : null,
+                onChanged: (value) {
+                  setState(() {
+                    _specialtyId = value as int;
+                  });
+                },
                 initialId: _specialtyId,
                 disabled: appointmentExists,
               ),
@@ -122,6 +124,7 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                 decoration: FormHelper.inputDecoration(
                   context: context,
                   labelText: 'Doctor',
+                  fillColor: appointmentExists && widget.userRole == UserRole.patient ? Colors.black12 : null,
                 ),
                 onChanged: (value) {
                   setState(() {
@@ -129,10 +132,11 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                   });
                 },
                 initialId: _doctorId,
-                disabled: appointmentExists,
+                disabled: appointmentExists && widget.userRole == UserRole.patient,
               ),
               SizedBox(height: 16),
               DateTimeField(
+                dateTextStyle: textStyle,
                 decoration: FormHelper.inputDecoration(
                   context: context,
                   labelText: 'Date and Time',
@@ -153,21 +157,20 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                   decoration: FormHelper.inputDecoration(
                     context: context,
                     labelText: 'Patient',
+                    fillColor: Colors.black12,
                   ),
-                  onChanged: (value) {
-                    setState(() {
-                      _patientId = value as int;
-                    });
-                  },
+                  onChanged: null,
                   initialId: _patientId,
+                  disabled: true,
                 ),
                 SizedBox(height: 16),
               ],
               TextFormField(
+                style: textStyle,
                 decoration: FormHelper.inputDecoration(
                   context: context,
                   labelText: 'Description',
-                  fillColor: widget.userRole == UserRole.patient ? null : Colors.black12,
+                  fillColor: widget.userRole == UserRole.doctor ? Colors.black12 : null,
                 ),
                 controller: _descriptionController,
                 maxLines: 5,
@@ -190,6 +193,7 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                 ),
                 SizedBox(height: 16),
                 TextFormField(
+                  style: textStyle,
                   decoration: FormHelper.inputDecoration(
                     context: context,
                     labelText: 'Before Visit',
