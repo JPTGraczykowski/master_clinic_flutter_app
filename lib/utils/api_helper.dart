@@ -1,5 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:master_clinic_flutter_app/main.dart';
 import 'package:master_clinic_flutter_app/utils/request_interceptor.dart';
+import '../screens/sign_in.dart';
 import './constants.dart';
 
 class ApiHelper {
@@ -13,11 +17,24 @@ class ApiHelper {
     return dio;
   }
 
-  static Future<Response?> sendPostRequest(String url, Map<String, Map<String, String>> body) async {
+  static Future<Response?> sendPostRequest(String url, Map<String, Map<String, dynamic>> body) async {
     final dio = createDio();
 
     try {
       return await dio.post(
+        url,
+        data: body,
+      );
+    } on DioException catch (error) {
+      return handleBadResponse(error);
+    }
+  }
+
+  static Future<Response?> sendPatchRequest(String url, Map<String, Map<String, dynamic>> body) async {
+    final dio = createDio();
+
+    try {
+      return await dio.patch(
         url,
         data: body,
       );
@@ -54,6 +71,11 @@ class ApiHelper {
     print(error);
     final response = error.response;
     if (response != null) {
+      if (response.statusCode == 401) {
+        navigatorKey.currentState!.pushReplacement(
+          MaterialPageRoute(builder: (context) => SignInScreen()),
+        );
+      }
       return response;
     }
     print(error.message);
@@ -88,6 +110,10 @@ class ApiHelper {
 
   static String appointmentCreate() {
     return 'appointments';
+  }
+
+  static String appointmentUpdate(int id) {
+    return 'appointments/${id.toString()}';
   }
 
   // selectors routes

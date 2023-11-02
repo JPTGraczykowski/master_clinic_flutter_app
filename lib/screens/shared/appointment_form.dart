@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:intl/intl.dart';
+import 'package:master_clinic_flutter_app/main.dart';
 import 'package:master_clinic_flutter_app/utils/datetime_helper.dart';
 import '../../models/appointment.dart';
 import '../../models/user.dart';
@@ -34,7 +35,7 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
   int? _doctorId;
   int? _patientId;
   int? _cabinetId;
-  int? _datetime_slot_id;
+  int? _datetimeSlotId;
   final _descriptionController = TextEditingController();
   final _beforeVisitController = TextEditingController();
 
@@ -79,19 +80,89 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
     });
   }
 
-  // void _saveAppointment() {
-  //   setState(() {
-  //     _isSending = true;
-  //   });
-  //   final url = ApiHelper.appointmentCreate();
-  //   Map<String, dynamic> appointmentBody = {
-  //     'specialty_id': _specialtyId,
-  //     'doctor_id': _doctorId,
-  //     'datetime_slot_id':
-  //   }
-  // }
+  Map<String, dynamic> newAppointmentParams() {
+    return {
+      'specialty_id': _specialtyId,
+      'doctor_id': _doctorId,
+      'datetime_slot_id': _datetimeSlotId,
+      'description': _descriptionController.text,
+    };
+  }
 
-  void saveAppointment() {}
+  Map<String, dynamic> updateAppointmentParams() {
+    return {
+      'before_visit': _beforeVisitController.text,
+      'description': _descriptionController.text,
+      'cabinet_it': _cabinetId,
+    };
+  }
+
+  void saveNewAppointment() async {
+    setState(() {
+      _isSending = true;
+    });
+    final url = ApiHelper.appointmentCreate();
+    Map<String, Map<String, dynamic>> appointmentBody = {
+      'appointment': newAppointmentParams(),
+    };
+    final response = await ApiHelper.sendPostRequest(url, appointmentBody);
+
+    if (response != null && response.statusCode == 201) {
+      snackbarKey.currentState!.showSnackBar(
+        SnackBar(
+          content: Text('Appointment was saved successfully'),
+        ),
+      );
+      navigatorKey.currentState!.pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => AppointmentFormScreen(
+            userRole: widget.userRole,
+            appointmentId: int.parse(response.data['data']['id']),
+          ),
+        ),
+      );
+    } else {
+      setState(() {
+        _isSending = false;
+        _error = 'Appointment was NOT saved';
+      });
+    }
+  }
+
+  void updateAppointment() async {
+    setState(() {
+      _isSending = true;
+    });
+    final url = ApiHelper.appointmentUpdate(widget.appointmentId!);
+    Map<String, Map<String, dynamic>> appointmentBody = {
+      'appointment': updateAppointmentParams(),
+    };
+    final response = await ApiHelper.sendPatchRequest(url, appointmentBody);
+
+    if (response != null && response.statusCode == 200) {
+      snackbarKey.currentState!.showSnackBar(
+        SnackBar(
+          content: Text('Appointment was updated successfully'),
+        ),
+      );
+      setState(() {
+        _isSending = false;
+      });
+    } else {
+      setState(() {
+        _isSending = false;
+        _error = 'Appointment was NOT saved';
+      });
+    }
+  }
+
+  void onSubmitForm() {
+    if (widget.appointmentId != null) {
+      updateAppointment();
+    } else {
+      saveNewAppointment();
+    }
+  }
 
   Widget renderForm() {
     if (_error != '') {
@@ -172,7 +243,7 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      _datetime_slot_id = value as int;
+                      _datetimeSlotId = value as int;
                     });
                   },
                   renderMenuItemWidget: (String dateTime) {
@@ -233,7 +304,7 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
               ],
               SizedBox(height: 32),
               PrimaryButton(
-                onPressed: _isSending ? null : saveAppointment,
+                onPressed: _isSending ? null : onSubmitForm,
                 content: _isSending
                     ? const SizedBox(
                         height: 16,
