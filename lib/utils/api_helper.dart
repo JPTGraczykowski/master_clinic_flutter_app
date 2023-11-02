@@ -126,6 +126,22 @@ class ApiHelper {
     return 'datetime_slots';
   }
 
+  static String datetimeSlotShow(int id) {
+    return 'datetime_slots/${id.toString()}';
+  }
+
+  static String datetimeSlotCreate() {
+    return 'datetime_slots';
+  }
+
+  static String datetimeSlotUpdate(int id) {
+    return 'datetime_slots/${id.toString()}';
+  }
+
+  static String datetimeSlotDelete(int id) {
+    return 'datetime_slots/${id.toString()}';
+  }
+
   // selectors routes
   static String specialties() {
     return 'selectors/specialties';

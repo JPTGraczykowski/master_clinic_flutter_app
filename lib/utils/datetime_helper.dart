@@ -10,4 +10,8 @@ class DatetimeHelper {
   static String formatDatetime(DateTime dateTime) {
     return DateFormat('MMMM dd HH:mm').format(dateTime);
   }
+
+  static String prepareDatetimeToSend(DateTime dateTime) {
+    return DateFormat('y-M-d H:m:s.S').format(dateTime);
+  }
 }
