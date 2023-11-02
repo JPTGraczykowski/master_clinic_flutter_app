@@ -9,6 +9,7 @@ class ApiDropdownFormField extends StatelessWidget {
     required this.onChanged,
     this.initialId,
     this.disabled = false,
+    this.renderMenuItemWidget,
   });
 
   final String url;
@@ -16,6 +17,7 @@ class ApiDropdownFormField extends StatelessWidget {
   final void Function(Object?)? onChanged;
   final int? initialId;
   final bool disabled;
+  final Widget Function(String)? renderMenuItemWidget;
 
   Future<List<Map<String, dynamic>>> get items async {
     final response = await ApiHelper.sendGetRequest(url);
@@ -46,7 +48,7 @@ class ApiDropdownFormField extends StatelessWidget {
                 DropdownMenuItem<int>(
                   value: item['id'],
                   alignment: AlignmentDirectional.topStart,
-                  child: Text(item['text']),
+                  child: renderMenuItemWidget != null ? renderMenuItemWidget!(item['text']) : Text(item['text']),
                 )
             ],
             value: initialId,

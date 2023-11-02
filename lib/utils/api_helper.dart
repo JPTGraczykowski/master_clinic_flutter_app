@@ -77,6 +77,7 @@ class ApiHelper {
     return 'patients/$id';
   }
 
+  // Appointments
   static String appointmentsIndex() {
     return 'appointments';
   }
@@ -85,9 +86,17 @@ class ApiHelper {
     return 'appointments/${id.toString()}';
   }
 
+  static String appointmentCreate() {
+    return 'appointments';
+  }
+
   // selectors routes
   static String specialties() {
     return 'selectors/specialties';
+  }
+
+  static String datetimeSlots() {
+    return 'selectors/datetime_slots';
   }
 
   static String doctors() {

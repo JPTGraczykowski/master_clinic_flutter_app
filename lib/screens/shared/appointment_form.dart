@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:intl/intl.dart';
+import 'package:master_clinic_flutter_app/utils/datetime_helper.dart';
 import '../../models/appointment.dart';
 import '../../models/user.dart';
 import '../../utils/api_helper.dart';
@@ -28,12 +29,12 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
   bool _isSending = false;
   bool _isLoading = false;
   String _error = '';
-  Appointment? _appointment;
   int? _specialtyId;
   DateTime _appointmentDateTime = DateTime.now();
   int? _doctorId;
   int? _patientId;
   int? _cabinetId;
+  int? _datetime_slot_id;
   final _descriptionController = TextEditingController();
   final _beforeVisitController = TextEditingController();
 
@@ -60,7 +61,6 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
     Appointment appointment = Appointment.fromJson(responseData['data']['attributes']);
 
     setState(() {
-      _appointment = appointment;
       _isLoading = false;
       _specialtyId = appointment.specialty['id'];
       _appointmentDateTime = DateTime.parse(appointment.appointmentDatetime);
@@ -79,7 +79,19 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
     });
   }
 
-  void _saveAppointment() {}
+  // void _saveAppointment() {
+  //   setState(() {
+  //     _isSending = true;
+  //   });
+  //   final url = ApiHelper.appointmentCreate();
+  //   Map<String, dynamic> appointmentBody = {
+  //     'specialty_id': _specialtyId,
+  //     'doctor_id': _doctorId,
+  //     'datetime_slot_id':
+  //   }
+  // }
+
+  void saveAppointment() {}
 
   Widget renderForm() {
     if (_error != '') {
@@ -135,21 +147,38 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                 disabled: appointmentExists && widget.userRole == UserRole.patient,
               ),
               SizedBox(height: 16),
-              DateTimeField(
-                dateTextStyle: textStyle,
-                decoration: FormHelper.inputDecoration(
-                  context: context,
-                  labelText: 'Date and Time',
+              if (appointmentExists)
+                DateTimeField(
+                  dateTextStyle: textStyle,
+                  decoration: FormHelper.inputDecoration(
+                    context: context,
+                    labelText: 'Date and Time',
+                  ),
+                  selectedDate: _appointmentDateTime,
+                  dateFormat: DateFormat('MMMM dd HH:mm'),
+                  onDateSelected: (DateTime value) {
+                    setState(() {
+                      _appointmentDateTime = value;
+                    });
+                  },
+                  enabled: !appointmentExists,
+                )
+              else
+                ApiDropdownFormField(
+                  url: ApiHelper.datetimeSlots(),
+                  decoration: FormHelper.inputDecoration(
+                    context: context,
+                    labelText: 'Date and Time',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _datetime_slot_id = value as int;
+                    });
+                  },
+                  renderMenuItemWidget: (String dateTime) {
+                    return Text(DatetimeHelper.formatDatetimeString(dateTime));
+                  },
                 ),
-                selectedDate: _appointmentDateTime,
-                dateFormat: DateFormat('MMMM dd HH:mm'),
-                onDateSelected: (DateTime value) {
-                  setState(() {
-                    _appointmentDateTime = value;
-                  });
-                },
-                enabled: !appointmentExists,
-              ),
               SizedBox(height: 16),
               if (widget.userRole == UserRole.doctor) ...[
                 ApiDropdownFormField(
@@ -204,7 +233,7 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
               ],
               SizedBox(height: 32),
               PrimaryButton(
-                onPressed: _isSending ? null : _saveAppointment,
+                onPressed: _isSending ? null : saveAppointment,
                 content: _isSending
                     ? const SizedBox(
                         height: 16,
