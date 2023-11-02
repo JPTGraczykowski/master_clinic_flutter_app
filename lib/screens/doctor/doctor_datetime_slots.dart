@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../screens/doctor/datetime_slot_form.dart';
 import '../../utils/api_helper.dart';
+import '../../widgets/add_date_time_slot_button.dart';
 import '../../widgets/datetime_slot_list_item.dart';
 import '../../widgets/screen_title.dart';
 import '../../models/datetime_slot.dart';
@@ -49,6 +51,17 @@ class _DoctorDatetimeSlotsScreenState extends State<DoctorDatetimeSlotsScreen> {
     });
   }
 
+  void onSelectItem(BuildContext context, DatetimeSlot datetimeSlot) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (ctx) => DatetimeSlotFormScreen(
+          slotId: datetimeSlot.id,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +69,9 @@ class _DoctorDatetimeSlotsScreenState extends State<DoctorDatetimeSlotsScreen> {
           title: ScreenTitle(
             title: 'My Slots',
           ),
+          actions: [
+            AddDatetimeSlotButton(),
+          ],
         ),
         body: FutureBuilder(
           future: _fetchedDatetimeSlots,
@@ -76,10 +92,16 @@ class _DoctorDatetimeSlotsScreenState extends State<DoctorDatetimeSlotsScreen> {
               itemCount: datetimeSlots.length,
               prototypeItem: DatetimeSlotListItem(
                 datetimeSlot: datetimeSlots.first,
+                onSelectItem: () {
+                  onSelectItem(context, datetimeSlots.first);
+                },
               ),
               itemBuilder: (context, index) {
                 return DatetimeSlotListItem(
                   datetimeSlot: datetimeSlots[index],
+                  onSelectItem: () {
+                    onSelectItem(context, datetimeSlots[index]);
+                  },
                 );
               },
             );
