@@ -116,6 +116,11 @@ class ApiHelper {
     return 'appointments/${id.toString()}';
   }
 
+  // Cabinets
+  static String cabinetsIndex() {
+    return 'cabinets';
+  }
+
   // selectors routes
   static String specialties() {
     return 'selectors/specialties';

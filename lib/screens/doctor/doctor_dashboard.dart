@@ -36,9 +36,7 @@ class DoctorDashboardScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => DoctorCabinetsScreen(
-              cabinets: [],
-            ),
+            builder: (ctx) => DoctorCabinetsScreen(),
           ),
         );
         break;
