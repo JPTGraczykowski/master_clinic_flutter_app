@@ -121,6 +121,11 @@ class ApiHelper {
     return 'cabinets';
   }
 
+  // DatetimeSlots
+  static String datetimeSlotIndex() {
+    return 'datetime_slots';
+  }
+
   // selectors routes
   static String specialties() {
     return 'selectors/specialties';
