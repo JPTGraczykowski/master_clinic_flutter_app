@@ -10,6 +10,7 @@ class FormHelper {
     Widget? prefixIcon,
     String? hintText,
     String? labelText,
+    TextStyle? labelStyle,
   }) =>
       InputDecoration(
         enabledBorder: enabledBorder ??
@@ -20,5 +21,9 @@ class FormHelper {
         prefixIcon: prefixIcon,
         hintText: hintText,
         labelText: labelText,
+        labelStyle: labelStyle ??
+            Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
       );
 }

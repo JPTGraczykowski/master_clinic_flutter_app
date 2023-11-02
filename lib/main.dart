@@ -17,6 +17,10 @@ final theme = ThemeData(
 
 final storage = FlutterSecureStorage();
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
+
 void main() {
   runApp(const MyApp());
 }
@@ -43,6 +47,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Master Clinic',
+        navigatorKey: navigatorKey,
+        scaffoldMessengerKey: snackbarKey,
         theme: theme,
         home: FutureBuilder(
           future: authData,
