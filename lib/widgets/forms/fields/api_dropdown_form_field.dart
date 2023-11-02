@@ -38,7 +38,7 @@ class ApiDropdownFormField extends StatelessWidget {
     return FutureBuilder(
       future: items,
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+        if (snapshot.hasData) {
           List<Map<String, dynamic>> items = snapshot.data!;
 
           return DropdownButtonFormField(

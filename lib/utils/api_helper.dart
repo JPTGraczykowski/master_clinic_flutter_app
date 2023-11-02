@@ -121,24 +121,45 @@ class ApiHelper {
     return 'cabinets';
   }
 
+  // DatetimeSlots
+  static String datetimeSlotIndex() {
+    return 'datetime_slots';
+  }
+
+  static String datetimeSlotShow(int id) {
+    return 'datetime_slots/${id.toString()}';
+  }
+
+  static String datetimeSlotCreate() {
+    return 'datetime_slots';
+  }
+
+  static String datetimeSlotUpdate(int id) {
+    return 'datetime_slots/${id.toString()}';
+  }
+
+  static String datetimeSlotDelete(int id) {
+    return 'datetime_slots/${id.toString()}';
+  }
+
   // selectors routes
   static String specialties() {
     return 'selectors/specialties';
   }
 
-  static String datetimeSlots() {
-    return 'selectors/datetime_slots';
-  }
-
-  static String doctors() {
-    return 'selectors/doctors';
+  static String doctors({int? specialtyId}) {
+    return 'selectors/doctors${specialtyId != null ? '?specialty_id=$specialtyId' : ''}';
   }
 
   static String patients() {
     return 'selectors/patients';
   }
 
-  static String cabinets() {
-    return 'selectors/cabinets';
+  static String datetimeSlots({int? doctorId}) {
+    return 'selectors/datetime_slots${doctorId != null ? '?doctor_id=$doctorId' : ''}';
+  }
+
+  static String cabinets({int? doctorId}) {
+    return 'selectors/cabinets${doctorId != null ? '?doctor_id=$doctorId' : ''}';
   }
 }

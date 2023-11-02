@@ -26,9 +26,7 @@ class DoctorDashboardScreen extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => DoctorDatetimeSlotsScreen(
-              datetimeSlots: [],
-            ),
+            builder: (ctx) => DoctorDatetimeSlotsScreen(),
           ),
         );
         break;
