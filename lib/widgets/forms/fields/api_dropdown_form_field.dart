@@ -48,7 +48,15 @@ class ApiDropdownFormField extends StatelessWidget {
                 DropdownMenuItem<int>(
                   value: item['id'],
                   alignment: AlignmentDirectional.topStart,
-                  child: renderMenuItemWidget != null ? renderMenuItemWidget!(item['text']) : Text(item['text']),
+                  child: renderMenuItemWidget != null
+                      ? renderMenuItemWidget!(item['text'])
+                      : Text(
+                          item['text'],
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(color: Theme.of(context).colorScheme.primary),
+                        ),
                 )
             ],
             value: initialId,

@@ -202,21 +202,23 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                 disabled: appointmentExists,
               ),
               SizedBox(height: 16),
-              ApiDropdownFormField(
-                url: ApiHelper.doctors(),
-                decoration: FormHelper.inputDecoration(
-                  context: context,
-                  labelText: 'Doctor',
-                  fillColor: appointmentExists && widget.userRole == UserRole.patient ? Colors.black12 : null,
+              if (widget.userRole == UserRole.patient) ...[
+                ApiDropdownFormField(
+                  url: ApiHelper.doctors(),
+                  decoration: FormHelper.inputDecoration(
+                    context: context,
+                    labelText: 'Doctor',
+                    fillColor: appointmentExists && widget.userRole == UserRole.patient ? Colors.black12 : null,
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _doctorId = value as int;
+                    });
+                  },
+                  initialId: _doctorId,
+                  disabled: appointmentExists && widget.userRole == UserRole.patient,
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    _doctorId = value as int;
-                  });
-                },
-                initialId: _doctorId,
-                disabled: appointmentExists && widget.userRole == UserRole.patient,
-              ),
+              ],
               SizedBox(height: 16),
               if (appointmentExists)
                 DateTimeField(
@@ -224,6 +226,7 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                   decoration: FormHelper.inputDecoration(
                     context: context,
                     labelText: 'Date and Time',
+                    fillColor: widget.userRole == UserRole.doctor ? null : Colors.black12,
                   ),
                   selectedDate: _appointmentDateTime,
                   dateFormat: DateFormat('MMMM dd HH:mm'),
@@ -232,7 +235,7 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                       _appointmentDateTime = value;
                     });
                   },
-                  enabled: !appointmentExists,
+                  enabled: widget.userRole == UserRole.doctor,
                 )
               else
                 ApiDropdownFormField(
@@ -247,7 +250,13 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                     });
                   },
                   renderMenuItemWidget: (String dateTime) {
-                    return Text(DatetimeHelper.formatDatetimeString(dateTime));
+                    return Text(
+                      DatetimeHelper.formatDatetimeString(dateTime),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: Theme.of(context).colorScheme.primary),
+                    );
                   },
                 ),
               SizedBox(height: 16),
@@ -277,12 +286,13 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                 readOnly: widget.userRole == UserRole.doctor,
               ),
               SizedBox(height: 16),
-              if (widget.userRole == UserRole.doctor) ...[
+              if (appointmentExists) ...[
                 ApiDropdownFormField(
                   url: ApiHelper.cabinets(),
                   decoration: FormHelper.inputDecoration(
                     context: context,
                     labelText: 'Cabinet',
+                    fillColor: widget.userRole == UserRole.patient ? Colors.black12 : null,
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -290,6 +300,7 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                     });
                   },
                   initialId: _cabinetId,
+                  disabled: widget.userRole == UserRole.patient,
                 ),
                 SizedBox(height: 16),
                 TextFormField(
@@ -297,9 +308,11 @@ class _AppointmentFormScreenState extends State<AppointmentFormScreen> {
                   decoration: FormHelper.inputDecoration(
                     context: context,
                     labelText: 'Before Visit',
+                    fillColor: widget.userRole == UserRole.patient ? Colors.black12 : null,
                   ),
                   controller: _beforeVisitController,
                   maxLines: 5,
+                  readOnly: widget.userRole == UserRole.patient,
                 ),
               ],
               SizedBox(height: 32),
